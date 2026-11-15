@@ -18,6 +18,12 @@ def browser():
     options.add_argument("--headless")  # Ejecuta sin interfaz gráfica
     options.add_argument("--no-sandbox")  # Necesario para algunos entornos
     options.add_argument("--disable-dev-shm-usage")  # Necesario para algunos entornos
+    # Chrome 157 intenta https:// en sitios públicos. El ALB solo escucha en el
+    # puerto 80, así que sin esto el navegador se queda en la página de aviso
+    # y el formulario no aparece. localhost no se ve afectado.
+    options.add_argument(
+        "--disable-features=HttpsUpgrades,HttpsFirstBalancedModeAutoEnable"
+    )
     driver = webdriver.Chrome(options=options)
 
     # Opción 2: Firefox (headless)
